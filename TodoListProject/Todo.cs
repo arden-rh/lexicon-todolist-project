@@ -8,7 +8,7 @@ namespace TodoList
         public string Title { get; set; }
         public DateTime DueDate { get; set; }
         public bool IsCompleted { get; set; }
-        public Project Project { get; set; }
+        public Project ParentProject { get; set; }
 
         public Todo(string title, DateTime dueDate, Project project)
         {
@@ -16,7 +16,7 @@ namespace TodoList
             Title = title;
             DueDate = dueDate;
             IsCompleted = false;
-            Project = project;
+            ParentProject = project;
         }
 
         // Mark the todo as completed
@@ -26,7 +26,7 @@ namespace TodoList
         }
 
         // Edit the todo details
-        public void Edit(
+        public void EditTodo(
             string newTitle = null, 
             DateTime? newDueDate = null,
             bool? isCompleted = null,
@@ -36,7 +36,7 @@ namespace TodoList
             Title = newTitle ?? Title;
             DueDate = newDueDate ?? DueDate;
             IsCompleted = isCompleted ?? IsCompleted;
-            Project = newProject ?? Project;
+            ParentProject = newProject ?? ParentProject;
         }
     }
 }
