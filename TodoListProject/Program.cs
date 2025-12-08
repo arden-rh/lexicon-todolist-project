@@ -1,9 +1,9 @@
 ﻿/* Todo List */
 
-using TodoList;
+using TodoListProject;
 
 string UserInput;
-List<Project> ListOfProjects = new List<Project>();
+TodoList ListOfTodos = new TodoList();
+int IncompleteTodos = ListOfTodos.GetIncompleteTodos().Count;
+int CompletedTodos = ListOfTodos.GetCompletedTodos().Count;
 
-
-Console.WriteLine("Welcome to the Todo List Application!");

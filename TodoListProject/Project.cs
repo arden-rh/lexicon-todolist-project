@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace TodoList
+namespace TodoListProject
 {
     public class Project
     {

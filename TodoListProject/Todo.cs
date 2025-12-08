@@ -1,6 +1,6 @@
 ﻿/* Todo */
 
-namespace TodoList
+namespace TodoListProject
 {
     public class Todo
     {
