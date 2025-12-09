@@ -1,0 +1,25 @@
+{
+  "todos": [
+    {
+      "id": 1,
+      "title": "Buy groceries",
+      "dueDate": "2025-12-12",
+      "completed": false,
+      "project": "Personal"
+    },
+    {
+      "id": 2,
+      "title": "Study for exams",
+      "dueDate": "2025-12-13",
+      "completed": false,
+      "project": "Education"
+    },
+    {
+      "id": 3,
+      "title": "Read a book",
+      "dueDate": "2025-12-14",
+      "completed": true,
+      "project": "Personal"
+    }
+  ]
+}

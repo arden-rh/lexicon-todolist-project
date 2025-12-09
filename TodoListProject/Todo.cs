@@ -1,7 +1,10 @@
 ﻿/* Todo */
 
+using System.Text.Json.Serialization;
+
 namespace TodoListProject
 {
+    [JsonSerializable(typeof(Todo))]
     public class Todo
     {
         public int Id { get; }
