@@ -9,14 +9,13 @@ namespace TodoListProject
     {
         public int Id { get; }
         public string Name { get; set; }
-
-        public List<Todo> Todos { get; set; }
+        public List<int> TodoIds { get; set; }
 
         public Project(string name)
         {
             Id = new Random().Next(1, 100000); // Simple random ID generation
             Name = name;
-            Todos = new List<Todo>();
+            TodoIds = new List<int>();
         }
     }
 }

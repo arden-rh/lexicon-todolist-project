@@ -21,5 +21,17 @@
       "completed": true,
       "project": "Personal"
     }
+  ],
+  "projects": [
+    {
+      "id": 1,
+      "name": "Personal",
+      "todoIds": [ 1, 3 ]
+    },
+    {
+      "id": 2,
+      "name": "Education",
+      "todoIds": [ 2 ]
+    }
   ]
 }
