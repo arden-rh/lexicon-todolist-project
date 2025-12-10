@@ -59,7 +59,7 @@ namespace TodoListProject
 
             foreach (Todo todo in todos)
             {
-                string status = todo.IsCompleted ? "Completed" : "Incomplete";
+                string status = todo.IsCompleted ? "Yes" : "No";
                 Console.WriteLine($"{todo.Title,-30}{todo.DueDate.ToString("yyyy-MM-dd"),-15}{todo.ParentProjectName,-15}{status,-15}");
             }
         }
