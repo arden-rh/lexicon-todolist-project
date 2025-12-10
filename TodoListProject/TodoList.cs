@@ -14,24 +14,22 @@ namespace TodoListProject
         }
 
         // Get all Todo items
-        public void GetListOfAllTodos()
+        public void GetListOfAllTodos(bool sortByDate = false)
         {
-            // Sort assets before presenting the list
-            // SortedAssets = SortAssets(Assets);
+            List<Todo> sortedTodos;
 
-            Console.WriteLine("\nList of Todos:");
-            Console.WriteLine("----------------");
-            Console.WriteLine($"{"Title",-30}{"Due Date",-15}{"Project",-15}{"Completed",-15}");
-            Console.WriteLine($"{"-----",-30}{"---------",-15}{"--------",-15}{"----------",-15}");
-
-            // Loop through list, checking EndOfLife date and applying color as appropiate
-            foreach (Todo todo in Todos)
+            // Sort todos by project name and due date
+            if (sortByDate)
             {
-                Console.WriteLine($"{todo.Title,-30}{todo.DueDate.ToString("yyyy-MM-dd"),-15}{todo.ParentProjectName,-15}{todo.IsCompleted,-15}");
+                sortedTodos = Todos.OrderBy(todo => todo.DueDate).ToList();
             }
-            Console.WriteLine();
-            //Console.WriteLine(
+            else
+            {
+                sortedTodos = Todos.OrderBy(todo => todo.ParentProjectName).ThenBy(todo => todo.DueDate).ToList();
+            }
 
+            ConsoleUI.DisplayListOfTodos(sortedTodos, "List of Todos:");
+        
         }
 
         // Get all incomplete Todo items
@@ -46,8 +44,8 @@ namespace TodoListProject
             return Todos.Where(todo => todo.IsCompleted).ToList();
         }
 
-        // Add a new Todo item to the list
-        public void AddTodo()
+        /* Add a new Todo item to the list */
+        public bool AddTodo()
         {
 
             bool isQuit;
@@ -67,7 +65,7 @@ namespace TodoListProject
                 ProjectName = InputHelper.GetValidatedStringInput("Enter a new project name for the new Todo or one of the ones listed above", out isQuit);
                 if (isQuit)
                 {
-                    return;
+                    return false;
                 }
             }
             else
@@ -75,19 +73,19 @@ namespace TodoListProject
                 ProjectName = InputHelper.GetValidatedStringInput("Enter the project name of the new Todo", out isQuit);
                 if (isQuit)
                 {
-                    return;
+                    return false;
                 }
             }
 
             string Title = InputHelper.GetValidatedStringInput("Enter the title of the new Todo", out isQuit);
             if (isQuit)
             {
-                return;
+                return false;
             }
             DateOnly DueDate = InputHelper.GetValidatedDateInput("Enter the due date of the new Todo", out isQuit);
             if (isQuit)
             {
-                return;
+                return false;
             }
 
             Project ChosenProject = Projects.FirstOrDefault(p => p.Name.Equals(ProjectName, StringComparison.OrdinalIgnoreCase));
@@ -115,10 +113,11 @@ namespace TodoListProject
             Todos.Add(NewTodo);
 
             Utilities.PrintStatementInColor($"Todo '{Title}' added successfully.", ConsoleColor.Green);
+            return true;
         }
 
 
-        // Remove a Todo item from the list
+        /* Remove a Todo item from the list */
         public void RemoveTodo(string todoTitle)
         {
             // Find all todos matching the given title (case-insensitive)
@@ -205,7 +204,7 @@ namespace TodoListProject
             }
         }
 
-        // Mark a Todo item as completed
+        /* Mark a Todo item as completed */
         public bool MarkTodoAsCompleted(string todoTitle)
         {
             Todo? Todo = Todos.FirstOrDefault(t => t.Title == todoTitle);

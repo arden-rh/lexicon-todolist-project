@@ -18,6 +18,7 @@ namespace TodoListProject
             }
             Console.ForegroundColor = ConsoleColor.White;
         }
+
         // Write text with a specific key highlighted in color
         public static void WriteColoredKey(string text, string key, ConsoleColor color)
         {
