@@ -44,18 +44,22 @@ while (isRunning)
             // Edit Todo
             ConsoleUI.DisplayEditMenu();
             int editChoice = ConsoleUI.GetUserMenuChoice();
+            string TodoTitle;
             switch (editChoice)
             {
                 case 1:
-                    // Mark as Completed
+                    // Update Todo Details
                     break;
                 case 2:
-                    // Update Todo Details
+                    // Mark as Completed
+                    Manager.GetListOfAllTodos();
+                    TodoTitle = ConsoleUI.GetUserInput("Enter the title of the Todo to mark as completed: ");
+                    Manager.MarkTodoAsCompleted(TodoTitle);
                     break;
                 case 3:
                     // Remove Todo
                     Manager.GetListOfAllTodos();
-                    string TodoTitle = ConsoleUI.GetUserInput("Enter the title of the Todo to remove: ");
+                    TodoTitle = ConsoleUI.GetUserInput("Enter the title of the Todo to remove: ");
                     Manager.RemoveTodo(TodoTitle);
                     break;
                 case 4:
