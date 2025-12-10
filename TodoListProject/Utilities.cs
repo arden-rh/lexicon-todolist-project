@@ -4,7 +4,21 @@ namespace TodoListProject
 {
     internal class Utilities
     {
-        // NOTE TO SELF: Look at this later
+        // Print statement in color
+        public static void PrintStatementInColor(string Statement, ConsoleColor Color, bool NewLine = true)
+        {
+            Console.ForegroundColor = Color;
+            if (NewLine)
+            {
+                Console.WriteLine(Statement);
+            }
+            else
+            {
+                Console.Write(Statement);
+            }
+            Console.ForegroundColor = ConsoleColor.White;
+        }
+        // Write text with a specific key highlighted in color
         public static void WriteColoredKey(string text, string key, ConsoleColor color)
         {
             // Find where the key is in the text
@@ -17,14 +31,14 @@ namespace TodoListProject
                 return;
             }
 
-            // 1. Write the part before the key
+            // Write the part before the key
             Console.Write(text.Substring(0, index));
 
-            // 2. Change color and write the key
+            // Change color and write the key
             Console.ForegroundColor = color;
             Console.Write(key);
 
-            // 3. Reset color and write the part after the key
+            // Reset color and write the part after the key
             Console.ResetColor();
             Console.WriteLine(text.Substring(index + key.Length));
         }

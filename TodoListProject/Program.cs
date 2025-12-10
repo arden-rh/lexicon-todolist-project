@@ -20,28 +20,51 @@ string UserInput;
 (CurrentTodos, CurrentProjects) = DataStore.LoadState();
 TodoList Manager = new TodoList(CurrentTodos, CurrentProjects);
 
-int IncompleteTodos = Manager.GetIncompleteTodos().Count;
-int CompletedTodos = Manager.GetCompletedTodos().Count;
 
 bool isRunning = true;
 
 while (isRunning)
 {
+    int IncompleteTodos = Manager.GetIncompleteTodos().Count;
+    int CompletedTodos = Manager.GetCompletedTodos().Count;
     ConsoleUI.DisplayWelcomeMessage(IncompleteTodos, CompletedTodos);
     // Menu
     ConsoleUI.DisplayMenu();
-    int userChoice = ConsoleUI.GetUserChoice();
+    int userChoice = ConsoleUI.GetUserMenuChoice();
 
     switch (userChoice)
     {
         case 1:
-            Manager.GetAllTodos();
+            Manager.GetListOfAllTodos();
             break;
         case 2:
             Manager.AddTodo();
             break;
         case 3:
             // Edit Todo
+            ConsoleUI.DisplayEditMenu();
+            int editChoice = ConsoleUI.GetUserMenuChoice();
+            switch (editChoice)
+            {
+                case 1:
+                    // Mark as Completed
+                    break;
+                case 2:
+                    // Update Todo Details
+                    break;
+                case 3:
+                    // Remove Todo
+                    Manager.GetListOfAllTodos();
+                    string TodoTitle = ConsoleUI.GetUserInput("Enter the title of the Todo to remove: ");
+                    Manager.RemoveTodo(TodoTitle);
+                    break;
+                case 4:
+                    // Return to Main Menu
+                    break;
+                default:
+                    Console.WriteLine("Invalid choice. Please try again.");
+                    break;
+            }
             break;
         case 4:
             // Save and Quit
@@ -52,6 +75,5 @@ while (isRunning)
             Console.WriteLine("Invalid choice. Please try again.");
             break;
     }
-
 }
 

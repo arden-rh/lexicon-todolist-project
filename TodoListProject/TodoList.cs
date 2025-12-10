@@ -14,7 +14,7 @@ namespace TodoListProject
         }
 
         // Get all Todo items
-        public void GetAllTodos()
+        public void GetListOfAllTodos()
         {
             // Sort assets before presenting the list
             // SortedAssets = SortAssets(Assets);
@@ -22,7 +22,7 @@ namespace TodoListProject
             Console.WriteLine("\nList of Todos:");
             Console.WriteLine("----------------");
             Console.WriteLine($"{"Title",-30}{"Due Date",-15}{"Project",-15}{"Completed",-15}");
-            Console.WriteLine($"{"------",-30}{"---------",-15}{"--------",-15}{"----------",-15}");
+            Console.WriteLine($"{"-----",-30}{"---------",-15}{"--------",-15}{"----------",-15}");
 
             // Loop through list, checking EndOfLife date and applying color as appropiate
             foreach (Todo todo in Todos)
@@ -30,6 +30,7 @@ namespace TodoListProject
                 Console.WriteLine($"{todo.Title,-30}{todo.DueDate.ToString("yyyy-MM-dd"),-15}{todo.ParentProjectName,-15}{todo.IsCompleted,-15}");
             }
             Console.WriteLine();
+            //Console.WriteLine(
 
         }
 
@@ -46,7 +47,7 @@ namespace TodoListProject
         }
 
         // Add a new Todo item to the list
-        public void AddTodo(List<Project> ListOfProjects = null)
+        public void AddTodo()
         {
 
             bool isQuit;
@@ -55,9 +56,13 @@ namespace TodoListProject
 
             string ProjectName;
 
-            if (ListOfProjects != null)
+            if (Projects != null)
             {
-                Console.WriteLine($"List of current projects: {string.Join(", ", ListOfProjects)}");
+                Console.WriteLine($"List of current projects: ");
+                foreach (Project project in Projects)
+                {
+                    Console.WriteLine($"- {project.Name}");
+                }
                 ProjectName = InputHelper.GetValidatedStringInput("Enter a new project name for the new Todo or one of the ones listed above", out isQuit);
                 if (isQuit)
                 {
@@ -88,9 +93,9 @@ namespace TodoListProject
             Project NewProject;
             Todo NewTodo;
 
-            if (ListOfProjects != null)
+            if (Projects != null)
             {
-                Project ChosenProject = ListOfProjects.Find(p => p.Name == ProjectName);
+                Project ChosenProject = Projects.Find(p => p.Name == ProjectName);
                 if (ChosenProject != null)
                 {
                     NewTodo = new Todo(Title, DueDate, ChosenProject.Name);
@@ -99,6 +104,7 @@ namespace TodoListProject
                 else
                 {
                     NewProject = new Project(ProjectName);
+                    Projects.Add(NewProject);
                     NewTodo = new Todo(Title, DueDate, NewProject.Name);
                     NewProject.RelatedTodoIds.Add(NewTodo.Id);
                 }
@@ -115,14 +121,34 @@ namespace TodoListProject
 
 
         // Remove a Todo item from the list
-        public void RemoveTodo(Todo todo)
+        public void RemoveTodo(string todoTitle)
         {
-            if (todo != null)
+            Todo? Todo = Todos.Find(t => t.Title == todoTitle);
+
+            if (Todo == null)
             {
-                Todos.Remove(todo);
+                Utilities.PrintStatementInColor("Todo not found.", ConsoleColor.Red);
+                Utilities.PrintStatementInColor("Returning to main menu...", ConsoleColor.Yellow);
+                return;
+            }
+
+            Console.WriteLine("Is this the todo you want to remove?");
+            Console.WriteLine($"Title: {Todo.Title}, Due Date: {Todo.DueDate}, Project: {Todo.ParentProjectName}, Completed: {Todo.IsCompleted}");
+            Console.Write("(Y)es / (N)o: ");
+            string Confirmation = Console.ReadLine().Trim().ToUpper();
+
+            if (Confirmation == "N" && Confirmation != "NO")
+            {
+                Utilities.PrintStatementInColor("Todo removal cancelled", ConsoleColor.Red);
+                Utilities.PrintStatementInColor("Returning to main menu...", ConsoleColor.Yellow);
+                return;
+            }
+
+            if (Confirmation == "Y" || Confirmation == "YES")
+            {
+                Utilities.PrintStatementInColor("Todo removed successfully.", ConsoleColor.Green);
+                Todos.Remove(Todo);
             }
         }
-
-        //
     }
 }

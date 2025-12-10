@@ -2,35 +2,35 @@
   "todos": [
     {
       "id": 1,
-      "title": "Buy groceries",
-      "dueDate": "2025-12-12",
+      "title": "Köpa julklapp till pappa",
+      "dueDate": "2025-12-20",
       "isCompleted": false,
-      "projectName": "Personal"
+      "projectName": "Julshopping"
     },
     {
       "id": 2,
-      "title": "Study for exams",
+      "title": "Dammsuga",
       "dueDate": "2025-12-13",
       "isCompleted": false,
-      "projectName": "Education"
+      "projectName": "Hemmet"
     },
     {
       "id": 3,
-      "title": "Read a book",
+      "title": "Köpa julklapp till bror",
       "dueDate": "2025-12-14",
       "isCompleted": true,
-      "projectName": "Personal"
+      "projectName": "Julshopping"
     }
   ],
   "projects": [
     {
       "id": 1,
-      "name": "Personal",
+      "name": "Julshopping",
       "todoIds": [ 1, 3 ]
     },
     {
       "id": 2,
-      "name": "Education",
+      "name": "Hemmet",
       "todoIds": [ 2 ]
     }
   ]
