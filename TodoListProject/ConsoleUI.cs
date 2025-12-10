@@ -25,8 +25,8 @@ namespace TodoListProject
         {
             Console.WriteLine("\n-------------------------------------------------");
             Console.WriteLine("Edit Todo - Pick an option:");
-            Utilities.WriteColoredKey("(1) Mark as Completed", "1", ConsoleColor.DarkCyan);
-            Utilities.WriteColoredKey("(2) Update Todo Details", "2", ConsoleColor.DarkCyan);
+            Utilities.WriteColoredKey("(1) Update Todo Details", "1", ConsoleColor.DarkCyan);
+            Utilities.WriteColoredKey("(2) Mark as Completed", "2", ConsoleColor.DarkCyan);
             Utilities.WriteColoredKey("(3) Remove Todo", "3", ConsoleColor.DarkCyan);
             Utilities.WriteColoredKey("(4) Return to Main Menu", "4", ConsoleColor.DarkCyan);
             Console.WriteLine("-------------------------------------------------");
