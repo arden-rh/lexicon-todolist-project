@@ -9,15 +9,16 @@
 
 using TodoListProject;
 
+// Initialize Data Store
 JsonDataStore DataStore = new JsonDataStore();
 
 List<Todo> CurrentTodos;
 List<Project> CurrentProjects;
 
-string UserInput;
-
 // Load existing data
 (CurrentTodos, CurrentProjects) = DataStore.LoadState();
+
+// Initialize TodoList Manager
 TodoList Manager = new TodoList(CurrentTodos, CurrentProjects);
 
 int IncompleteTodos = Manager.GetIncompleteTodos().Count;
@@ -26,6 +27,7 @@ ConsoleUI.DisplayWelcomeMessage(IncompleteTodos, CompletedTodos);
 
 bool isRunning = true;
 
+/* Main loop */
 while (isRunning)
 {
     // Menu
@@ -35,12 +37,14 @@ while (isRunning)
     switch (userChoice)
     {
         case 1:
+            /* Show Todo List */
             Manager.GetListOfAllTodos();
             // Return to List Menu after displaying chosen list
             while (true)
             {
                 ConsoleUI.DisplayListMenu();
                 int listChoice = ConsoleUI.GetUserMenuChoice();
+
                 switch (listChoice)
                 {
                     case 1:
@@ -65,7 +69,7 @@ while (isRunning)
                         // Return to Main Menu
                         break;
                     default:
-                        Console.WriteLine("Invalid choice. Please try again.");
+                        Utilities.PrintStatementInColor("\nInvalid choice. Please try again.", ConsoleColor.Red);
                         break;
                 }
 
@@ -76,7 +80,7 @@ while (isRunning)
             }
             break;
         case 2:
-            // Add New Todo
+            /* Add New Todo */
             while (true)
             {
                 bool TodoIsAdded = Manager.AddTodo();
@@ -94,26 +98,29 @@ while (isRunning)
             }
             break;
         case 3:
-            // Edit Todo
+            /* Edit Todo */
             ConsoleUI.DisplayEditMenu();
             int editChoice = ConsoleUI.GetUserMenuChoice();
-            string TodoTitle;
+            int TodoId;
             switch (editChoice)
             {
                 case 1:
                     // Update Todo Details
+                    Manager.GetListOfAllTodos(showIds: true);
+                    TodoId = ConsoleUI.GetUserInputAsInt("\nEnter the ID of the Todo to update: ");
+                    Manager.EditTodoDetails(TodoId);
                     break;
                 case 2:
                     // Mark as Completed
-                    Manager.GetListOfAllTodos();
-                    TodoTitle = ConsoleUI.GetUserInput("\nEnter the title of the Todo to mark as completed: ");
-                    Manager.MarkTodoAsCompleted(TodoTitle);
+                    Manager.GetListOfAllTodos(showIds: true);
+                    TodoId = ConsoleUI.GetUserInputAsInt("\nEnter the ID of the Todo to mark as completed: ");
+                    Manager.MarkTodoAsCompleted(TodoId);
                     break;
                 case 3:
                     // Remove Todo
-                    Manager.GetListOfAllTodos();
-                    TodoTitle = ConsoleUI.GetUserInput("\nEnter the title of the Todo to remove: ");
-                    Manager.RemoveTodo(TodoTitle);
+                    Manager.GetListOfAllTodos(showIds: true);
+                    TodoId = ConsoleUI.GetUserInputAsInt("\nEnter the ID of the Todo to remove: ");
+                    Manager.RemoveTodo(TodoId);
                     break;
                 case 4:
                     // Return to Main Menu
@@ -124,12 +131,14 @@ while (isRunning)
             }
             break;
         case 4:
-            // Save and Quit
+            /* Save and Quit */
+            // Save current state
             DataStore.SaveState(CurrentTodos, CurrentProjects);
             isRunning = false;
             break;
         default:
-            Console.WriteLine("Invalid choice. Please try again.");
+            /* Invalid choice */
+            Utilities.PrintStatementInColor("\nInvalid choice. Please try again.", ConsoleColor.Red);
             break;
     }
 }

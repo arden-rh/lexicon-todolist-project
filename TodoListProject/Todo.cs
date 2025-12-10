@@ -13,7 +13,7 @@ namespace TodoListProject
         // Constructor for creating a new Todo
         public Todo(string title, DateOnly dueDate, string projectName)
         {
-            Id = new Random().Next(1, 100000); // Simple random ID generation
+            Id = new Random().Next(1, 100); // Simple random ID generation
             Title = title;
             DueDate = dueDate;
             IsCompleted = false;
@@ -65,13 +65,13 @@ namespace TodoListProject
             string newTitle = null, 
             DateOnly? newDueDate = null,
             bool? isCompleted = null,
-            Project newProject = null)
+            string newProjectName = null)
         {
             // Update only the provided fields
             Title = newTitle ?? Title;
             DueDate = newDueDate ?? DueDate;
             IsCompleted = isCompleted ?? IsCompleted;
-            ParentProjectName = newProject?.Name ?? ParentProjectName;
+            ParentProjectName = newProjectName ?? ParentProjectName;
         }
     }
 }

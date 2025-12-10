@@ -44,7 +44,7 @@ namespace TodoListProject
             Utilities.PrintStatementInColor("-------------------------------------------------", ConsoleColor.DarkYellow);
         }
 
-        public static void DisplayListOfTodos(List<Todo> todos, string title)
+        public static void DisplayListOfTodos(List<Todo> todos, string title, bool showIds = false)
         {
             if (todos.Count == 0)
             {
@@ -53,14 +53,32 @@ namespace TodoListProject
             }
 
             Utilities.PrintStatementInColor($"\n{title}", ConsoleColor.Cyan);
-            Utilities.PrintStatementInColor("======================================================================\n", ConsoleColor.Cyan);
-            Console.WriteLine($"{"Title",-30}{"Due Date",-15}{"Project",-15}{"Completed",-15}");
-            Console.WriteLine($"{"-----",-30}{"---------",-15}{"--------",-15}{"----------",-15}");
+
+            if (showIds)
+            {
+                Utilities.PrintStatementInColor("==========================================================================\n", ConsoleColor.Cyan);
+
+                Console.WriteLine($"{"ID",-10}{"Title",-30}{"Due Date",-15}{"Project",-15}{"Completed",-15}");
+                Console.WriteLine($"{"----",-10}{"-----",-30}{"---------",-15}{"--------",-15}{"----------",-15}");
+            }
+            else
+            {
+                Utilities.PrintStatementInColor("======================================================================\n", ConsoleColor.Cyan);
+                Console.WriteLine($"{"Title",-30}{"Due Date",-15}{"Project",-15}{"Completed",-15}");
+                Console.WriteLine($"{"-----",-30}{"---------",-15}{"--------",-15}{"----------",-15}");
+            }
 
             foreach (Todo todo in todos)
             {
                 string status = todo.IsCompleted ? "Yes" : "No";
-                Console.WriteLine($"{todo.Title,-30}{todo.DueDate.ToString("yyyy-MM-dd"),-15}{todo.ParentProjectName,-15}{status,-15}");
+                if (showIds)
+                {
+                    Console.WriteLine($"{todo.Id,-10}{todo.Title,-30}{todo.DueDate.ToString("yyyy-MM-dd"),-15}{todo.ParentProjectName,-15}{status,-15}");
+                }
+                else
+                {
+                    Console.WriteLine($"{todo.Title,-30}{todo.DueDate.ToString("yyyy-MM-dd"),-15}{todo.ParentProjectName,-15}{status,-15}");
+                }
             }
         }
 
@@ -79,6 +97,17 @@ namespace TodoListProject
         {
             Console.Write(prompt);
             return Console.ReadLine();
+        }
+
+        public static int GetUserInputAsInt(string prompt)
+        {
+            Console.Write(prompt);
+            string input = Console.ReadLine();
+            if (int.TryParse(input, out int result))
+            {
+                return result;
+            }
+            return -1; // Indicate invalid input
         }
 
 
