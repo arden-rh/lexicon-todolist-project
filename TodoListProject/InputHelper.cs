@@ -28,11 +28,11 @@ namespace TodoListProject
             return Input.Trim().Equals("Q", StringComparison.OrdinalIgnoreCase);
         }
 
-        // Get validated DateTime input method
-        public static DateTime GetValidatedDateTimeInput(string Prompt, out bool IsQuit)
+        // Get validated DateOnly input method
+        public static DateOnly GetValidatedDateInput(string Prompt, out bool IsQuit)
         {
             IsQuit = false;
-            DateTime InputDate;
+            DateOnly InputDate;
 
             do
             {
@@ -51,7 +51,7 @@ namespace TodoListProject
                     continue;
                 }
                 // Try to parse the date
-                if (!DateTime.TryParse(Input, out InputDate))
+                if (!DateOnly.TryParse(Input, out InputDate))
                 {
                     Console.ForegroundColor = ConsoleColor.Red;
                     Console.WriteLine($"Invalid date. Please enter a valid date.");

@@ -4,24 +4,45 @@ namespace TodoListProject
 {
     public class TodoList
     {
-        private List<Todo> _Todos = new List<Todo>();
+        public List<Todo> Todos { get; private set; }
+        public List<Project> Projects { get; private set; }
+
+        public TodoList(List<Todo> todos, List<Project> projects)
+        {
+            Todos = todos;
+            Projects = projects;
+        }
 
         // Get all Todo items
-        public List<Todo> GetAllTodos()
+        public void GetAllTodos()
         {
-            return _Todos;
+            // Sort assets before presenting the list
+            // SortedAssets = SortAssets(Assets);
+
+            Console.WriteLine("\nList of Todos:");
+            Console.WriteLine("----------------");
+            Console.WriteLine($"{"Title",-30}{"Due Date",-15}{"Project",-15}{"Completed",-15}");
+            Console.WriteLine($"{"------",-30}{"---------",-15}{"--------",-15}{"----------",-15}");
+
+            // Loop through list, checking EndOfLife date and applying color as appropiate
+            foreach (Todo todo in Todos)
+            {
+                Console.WriteLine($"{todo.Title,-30}{todo.DueDate.ToString("yyyy-MM-dd"),-15}{todo.ParentProjectName,-15}{todo.IsCompleted,-15}");
+            }
+            Console.WriteLine();
+
         }
 
         // Get all incomplete Todo items
         public List<Todo> GetIncompleteTodos()
         {
-            return _Todos.Where(todo => !todo.IsCompleted).ToList();
+            return Todos.Where(todo => !todo.IsCompleted).ToList();
         }
 
         // Get all completed Todo items
         public List<Todo> GetCompletedTodos()
         {
-            return _Todos.Where(todo => todo.IsCompleted).ToList();
+            return Todos.Where(todo => todo.IsCompleted).ToList();
         }
 
         // Add a new Todo item to the list
@@ -57,7 +78,7 @@ namespace TodoListProject
             {
                 return;
             }
-            DateTime DueDate = InputHelper.GetValidatedDateTimeInput("Enter the due date of the new Todo", out isQuit);
+            DateOnly DueDate = InputHelper.GetValidatedDateInput("Enter the due date of the new Todo", out isQuit);
             if (isQuit)
             {
                 return;
@@ -72,24 +93,24 @@ namespace TodoListProject
                 Project ChosenProject = ListOfProjects.Find(p => p.Name == ProjectName);
                 if (ChosenProject != null)
                 {
-                    NewTodo = new Todo(Title, DueDate, ChosenProject);
-                    ChosenProject.Todos.Add(NewTodo);
+                    NewTodo = new Todo(Title, DueDate, ChosenProject.Name);
+                    ChosenProject.RelatedTodoIds.Add(NewTodo.Id);
                 }
                 else
                 {
                     NewProject = new Project(ProjectName);
-                    NewTodo = new Todo(Title, DueDate, NewProject);
-                    NewProject.Todos.Add(NewTodo);
+                    NewTodo = new Todo(Title, DueDate, NewProject.Name);
+                    NewProject.RelatedTodoIds.Add(NewTodo.Id);
                 }
             }
             else
             {
                 NewProject = new Project(ProjectName);
-                NewTodo = new Todo(Title, DueDate, NewProject);
-                NewProject.Todos.Add(NewTodo);
+                NewTodo = new Todo(Title, DueDate, NewProject.Name);
+                NewProject.RelatedTodoIds.Add(NewTodo.Id);
             }
             
-            _Todos.Add(NewTodo);
+            Todos.Add(NewTodo);
         }
 
 
@@ -98,7 +119,7 @@ namespace TodoListProject
         {
             if (todo != null)
             {
-                _Todos.Remove(todo);
+                Todos.Remove(todo);
             }
         }
 

@@ -1,14 +1,31 @@
 ﻿/* Todo List */
 
+
+/** TODO in this file
+ * Implement Edit Todo functionality
+ * 
+ * 
+ */
+
 using TodoListProject;
 
+JsonDataStore DataStore = new JsonDataStore();
+
+List<Todo> CurrentTodos;
+List<Project> CurrentProjects;
+
 string UserInput;
-TodoList ListOfTodos = new TodoList();
-int IncompleteTodos = ListOfTodos.GetIncompleteTodos().Count;
-int CompletedTodos = ListOfTodos.GetCompletedTodos().Count;
 
+// Load existing data
+(CurrentTodos, CurrentProjects) = DataStore.LoadState();
+TodoList Manager = new TodoList(CurrentTodos, CurrentProjects);
 
-do
+int IncompleteTodos = Manager.GetIncompleteTodos().Count;
+int CompletedTodos = Manager.GetCompletedTodos().Count;
+
+bool isRunning = true;
+
+while (isRunning)
 {
     ConsoleUI.DisplayWelcomeMessage(IncompleteTodos, CompletedTodos);
     // Menu
@@ -18,16 +35,18 @@ do
     switch (userChoice)
     {
         case 1:
-            ListOfTodos.GetAllTodos();
+            Manager.GetAllTodos();
             break;
         case 2:
-            ListOfTodos.AddTodo();
+            Manager.AddTodo();
             break;
         case 3:
             // Edit Todo
             break;
         case 4:
             // Save and Quit
+            DataStore.SaveState(CurrentTodos, CurrentProjects);
+            isRunning = false;
             break;
         default:
             Console.WriteLine("Invalid choice. Please try again.");
@@ -35,4 +54,4 @@ do
     }
 
 }
-while (true);
+
