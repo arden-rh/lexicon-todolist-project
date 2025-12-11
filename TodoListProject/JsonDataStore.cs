@@ -23,9 +23,9 @@ namespace TodoListProject
             // If not, check for test data file
             else if (File.Exists(TestDataFilePath))
             {
-                var testData = LoadAndMap(TestDataFilePath);
-                SaveState(testData.Todos, testData.Projects);
-                return testData;
+                var TestData = LoadAndMap(TestDataFilePath);
+                SaveState(TestData.Todos, TestData.Projects);
+                return TestData;
 
             }
             // If neither file exists, return empty lists
@@ -45,11 +45,11 @@ namespace TodoListProject
             {
                 return (new List<Todo>(), new List<Project>());
             }
-            // Map records to domain objects
-            List<Todo> currentTodos = SavedData.Todos.ConvertAll(todoRecord => Todo.FromRecord(todoRecord));
-            List<Project> currentProjects = SavedData.Projects.ConvertAll(projectRecord => Project.FromRecord(projectRecord));
+            // Map records to domain objects / current state lists
+            List<Todo> CurrentTodos = SavedData.Todos.ConvertAll(todoRecord => Todo.FromRecord(todoRecord));
+            List<Project> CurrentProjects = SavedData.Projects.ConvertAll(projectRecord => Project.FromRecord(projectRecord));
 
-            return (currentTodos, currentProjects);
+            return (CurrentTodos, CurrentProjects);
         }
 
         // Save the Todo list to a JSON file
@@ -57,16 +57,16 @@ namespace TodoListProject
         {
 
             // Serialize the data to JSON and write to file
-            List<TodoRecord> todoRecords = Todos.ConvertAll(todo => todo.ToRecord());
-            List<ProjectRecord> projectRecords = Projects.ConvertAll(project => project.ToRecord());
+            List<TodoRecord> TodoRecords = Todos.ConvertAll(todo => todo.ToRecord());
+            List<ProjectRecord> ProjectRecords = Projects.ConvertAll(project => project.ToRecord());
 
-            var dataToSave = new ApplicationData(todoRecords, projectRecords);
-            var options = new JsonSerializerOptions
+            var DataToSave = new ApplicationData(TodoRecords, ProjectRecords);
+            var Options = new JsonSerializerOptions
             {
                 WriteIndented = true,
             };
 
-            string JsonString = JsonSerializer.Serialize(dataToSave, options);
+            string JsonString = JsonSerializer.Serialize(DataToSave, Options);
             File.WriteAllText(UserDataFilePath, JsonString);
         }
 

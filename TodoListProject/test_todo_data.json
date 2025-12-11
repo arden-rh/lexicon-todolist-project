@@ -12,7 +12,7 @@
       "title": "Dammsuga",
       "dueDate": "2025-12-15",
       "isCompleted": false,
-      "projectName": "Hemmet"
+      "projectName": "Hemmasysslor"
     },
     {
       "id": 3,
@@ -20,18 +20,37 @@
       "dueDate": "2025-12-14",
       "isCompleted": true,
       "projectName": "Julshopping"
+    },
+    {
+      "id": 4,
+      "title": "Diska",
+      "dueDate": "2025-12-13",
+      "isCompleted": true,
+      "projectName": "Hemmasysslor"
+    },
+    {
+      "id": 5,
+      "title": "Uppdatera README",
+      "dueDate": "2025-12-12",
+      "isCompleted": true,
+      "projectName": "Skola"
     }
   ],
   "projects": [
     {
-      "id": 1,
+      "id": 101,
       "name": "Julshopping",
       "todoIds": [ 1, 3 ]
     },
     {
-      "id": 2,
-      "name": "Hemmet",
-      "todoIds": [ 2 ]
+      "id": 102,
+      "name": "Hemmasysslor",
+      "todoIds": [ 2, 4 ]
+    },
+    {
+      "id": 103,
+      "name": "Skola",
+      "todoIds": [ 5 ]
     }
   ]
 }
