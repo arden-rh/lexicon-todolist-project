@@ -1,5 +1,9 @@
 ﻿/* Data Records */
 
+/// <summary>
+/// This file contains the data structures used for storing application data.
+/// </summary>
+
 using System.Text.Json.Serialization;
 
 namespace TodoListProject

@@ -1,5 +1,10 @@
 ﻿/* Todo List */
 
+/// <summary>
+/// This is the main entry point for the Todo List application.
+/// It initializes the data store, loads existing data, and starts the main application loop.
+/// </summary>
+
 using TodoListProject;
 
 // Initialize Data Store
@@ -86,6 +91,7 @@ while (isRunning)
             Utilities.PrintStatementInColor("\n--- Add New Todo ---", ConsoleColor.DarkCyan);
             Utilities.PrintStatementInColor("Type 'Q' to cancel and return to the main menu.", ConsoleColor.Yellow);
             Console.WriteLine("-------------------------------------------------");
+
             while (true)
             {
                 // Add Todo

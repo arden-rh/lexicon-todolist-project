@@ -1,6 +1,12 @@
-﻿/* Todo List */
+﻿/* Todo List Manager */
 
-using System.Security.Cryptography.X509Certificates;
+/// <summary>
+/// Class <c>TodoListManager</c> manages the Todo list
+/// It has 3 main responsibilities:
+/// * Managing the list of Todo items (add, edit, remove, mark as completed)
+/// * Managing the list of Projects (create new projects as needed)
+/// * Providing methods to manipulate and display the Todo items and Projects
+/// </summary>
 
 namespace TodoListProject
 {
@@ -15,6 +21,7 @@ namespace TodoListProject
             Projects = projects ?? new List<Project>();
         }
 
+        // Get a single Todo item by its ID
         public Todo GetTodoById(int todoId)
         {
             Todo? FoundTodo = Todos.FirstOrDefault(t => t.Id == todoId);
@@ -30,7 +37,7 @@ namespace TodoListProject
 
         // ----------------------- List Management ----------------------
 
-        // Get all Todo items
+        // Get list of all Todo items
         public void GetListOfAllTodos(string title = "List of Todos", bool sortByDate = false, bool showIds = false)
         {
             List<Todo> sortedTodos;
@@ -61,13 +68,13 @@ namespace TodoListProject
 
         }
 
-        // Get all incomplete Todo items
+        // Get list of all incomplete Todo items
         public List<Todo> GetIncompleteTodos()
         {
             return Todos.Where(todo => !todo.IsCompleted).ToList();
         }
 
-        // Get all completed Todo items
+        // Get list of all completed Todo items
         public List<Todo> GetCompletedTodos()
         {
             return Todos.Where(todo => todo.IsCompleted).ToList();

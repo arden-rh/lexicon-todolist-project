@@ -1,8 +1,9 @@
-﻿/* Utility methods */
+﻿/* Utilities */
 
-/* This internal class provides various utility functions for the application. */
-
-
+/// <summary>
+/// Class <c>Utilities</c> provides various utility functions for the application.
+/// </summary>
+/// 
 namespace TodoListProject
 {
     internal class Utilities

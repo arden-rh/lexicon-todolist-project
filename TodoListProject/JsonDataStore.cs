@@ -1,5 +1,9 @@
 ﻿/* Json Data Store */
 
+/// <summary>
+/// Class <c>JsonDataStore</c> handles loading and saving the Todo list data to and from a JSON file.
+/// </summary>
+
 using System.Text.Json;
 
 namespace TodoListProject
@@ -11,7 +15,7 @@ namespace TodoListProject
         // For testing purposes, and populating an empty data store
         private const string TestDataFilePath = "test_todo_data.json";
 
-        // Load the Todo list from a JSON file
+        // Load the list of Todos and Projects from a JSON file
         public (List<Todo> Todos, List<Project> Projects) LoadState()
         {
 
@@ -35,6 +39,7 @@ namespace TodoListProject
             }
         }
 
+        // Helper method to load and map data from a specified file
         private (List<Todo> Todos, List<Project> Projects) LoadAndMap(string filePath)
         {
 
@@ -52,10 +57,9 @@ namespace TodoListProject
             return (CurrentTodos, CurrentProjects);
         }
 
-        // Save the Todo list to a JSON file
+        // Save the list of Todos and Projects to a JSON file
         public void SaveState(List<Todo> Todos, List<Project> Projects)
         {
-
             // Serialize the data to JSON and write to file
             List<TodoRecord> TodoRecords = Todos.ConvertAll(todo => todo.ToRecord());
             List<ProjectRecord> ProjectRecords = Projects.ConvertAll(project => project.ToRecord());
@@ -67,6 +71,7 @@ namespace TodoListProject
             };
 
             string JsonString = JsonSerializer.Serialize(DataToSave, Options);
+            // Write the JSON string to the user data file
             File.WriteAllText(UserDataFilePath, JsonString);
         }
 

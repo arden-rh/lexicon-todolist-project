@@ -1,7 +1,8 @@
-﻿
-/* Input Helper */
+﻿/* Input Helper */
 
-/* This static class provides helper methods for input validation and error handling. */
+/// <summary>
+/// Class <c>InputHelper</c> provides helper methods for input validation and error handling.
+/// </summary>
 
 namespace TodoListProject
 {
@@ -26,10 +27,11 @@ namespace TodoListProject
             return Input.Trim().Equals("Q", StringComparison.OrdinalIgnoreCase);
         }
 
-        /* Validation methods
-         * These methods prompt the user for input, validate it, and check for quit commands.
-         * They prompt repeatedly until valid input is received or the user chooses to quit.
-         */
+        /// <summary>
+        /// Validation methods
+        /// These methods prompt the user for input, validate it, and check for quit commands.
+        /// They prompt repeatedly until valid input is received or the user chooses to quit.
+        /// </summary>
 
         // Get validated DateOnly input method
         public static DateOnly GetValidatedDateInput(string Prompt, out bool IsQuit)

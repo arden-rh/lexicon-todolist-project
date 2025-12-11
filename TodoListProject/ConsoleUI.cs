@@ -1,6 +1,8 @@
 ﻿/* Console UI */
 
-/* This static class provides methods for displaying information to the user and getting input. */
+/// <summary>
+/// Class <c>ConsoleUI</c> provides methods for displaying information to the user and getting input.
+/// </summary>
 
 
 namespace TodoListProject
@@ -12,6 +14,7 @@ namespace TodoListProject
         {
             Console.WriteLine("Welcome to the Todo List Application!");
             Console.WriteLine($"You have {incompleteCount} tasks to do and {completedCount} completed tasks.");
+            Console.WriteLine("*************************************************");
         }
 
         // Display the main menu options
