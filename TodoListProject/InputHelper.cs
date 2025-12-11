@@ -5,8 +5,6 @@
 
 namespace TodoListProject
 {
-
-
     public static class InputHelper
     {
         // Error handling for empty input fields method
@@ -27,6 +25,11 @@ namespace TodoListProject
         {
             return Input.Trim().Equals("Q", StringComparison.OrdinalIgnoreCase);
         }
+
+        /* Validation methods
+         * These methods prompt the user for input, validate it, and check for quit commands.
+         * They prompt repeatedly until valid input is received or the user chooses to quit.
+         */
 
         // Get validated DateOnly input method
         public static DateOnly GetValidatedDateInput(string Prompt, out bool IsQuit)
@@ -72,7 +75,7 @@ namespace TodoListProject
             do
             {
                 Console.WriteLine($"{Prompt}:");
-                Utilities.PrintStatementInColor($"Current Value: {previousDate}", ConsoleColor.Yellow);
+                Utilities.PrintStatementInColor($"Current Value: {previousDate.ToString("yyyy-MM-dd")}", ConsoleColor.DarkGray);
                 Console.Write("New Date (or press Enter to keep previous): ");
                 string Input = Console.ReadLine().Trim();
 
@@ -103,8 +106,6 @@ namespace TodoListProject
         }
 
         // Get validated string input method
-        // This method prompts the user for input, validates it, and checks for quit command,
-        // returning the input or indicating if the user chose to quit.
         public static string GetValidatedStringInput(string Prompt, out bool IsQuit)
         {
             IsQuit = false;
@@ -132,6 +133,7 @@ namespace TodoListProject
 
             } while (true);
         }
+
         public static string GetValidatedStringInput(string Prompt, string previousInput, out bool IsQuit)
         {
             IsQuit = false;
@@ -140,7 +142,7 @@ namespace TodoListProject
             do
             {
                 Console.WriteLine($"{Prompt}:");
-                Utilities.PrintStatementInColor($"Current Value: {previousInput}", ConsoleColor.Yellow);
+                Utilities.PrintStatementInColor($"Current Value: {previousInput}", ConsoleColor.DarkGray);
                 Console.Write("New Value (or press Enter to keep previous): ");
                 Input = Console.ReadLine().Trim();
 
@@ -154,7 +156,7 @@ namespace TodoListProject
                 // Accept previous input if user presses Enter
                 if (string.IsNullOrWhiteSpace(Input))
                 {
-                    return null;
+                    return previousInput;
                 }
 
                 return Input;

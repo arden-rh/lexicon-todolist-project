@@ -1,12 +1,5 @@
 ﻿/* Todo List */
 
-
-/** TODO in this file
- * Implement Edit Todo functionality
- * 
- * 
- */
-
 using TodoListProject;
 
 // Initialize Data Store
@@ -18,12 +11,12 @@ List<Project> CurrentProjects;
 // Load existing data
 (CurrentTodos, CurrentProjects) = DataStore.LoadState();
 
-// Initialize TodoList Manager
-TodoList Manager = new TodoList(CurrentTodos, CurrentProjects);
+// Initialize TodoListManager
+TodoListManager Manager = new TodoListManager(CurrentTodos, CurrentProjects);
 
-int IncompleteTodos = Manager.GetIncompleteTodos().Count;
-int CompletedTodos = Manager.GetCompletedTodos().Count;
-ConsoleUI.DisplayWelcomeMessage(IncompleteTodos, CompletedTodos);
+int NumberOfIncompleteTodos = Manager.GetIncompleteTodos().Count;
+int NumberOfCompletedTodos = Manager.GetCompletedTodos().Count;
+ConsoleUI.DisplayWelcomeMessage(NumberOfIncompleteTodos, NumberOfCompletedTodos);
 
 bool isRunning = true;
 
@@ -32,38 +25,47 @@ while (isRunning)
 {
     // Menu
     ConsoleUI.DisplayMainMenu();
-    int userChoice = ConsoleUI.GetUserMenuChoice();
+    int userChoice = ConsoleUI.GetUserInputAsInt("Enter your choice: ");
 
+    // Handle user choice for main menu
     switch (userChoice)
     {
         case 1:
             /* Show Todo List */
-            Manager.GetListOfAllTodos();
+            Manager.GetListOfAllTodos("List of Todos (sorted by project and date)");
+
             // Return to List Menu after displaying chosen list
             while (true)
             {
                 ConsoleUI.DisplayListMenu();
-                int listChoice = ConsoleUI.GetUserMenuChoice();
+                int listChoice = ConsoleUI.GetUserInputAsInt("Enter your choice: ");
 
+                // Handle user choice for list menu
                 switch (listChoice)
                 {
                     case 1:
                         // Show Todos sorted by date
-                        Manager.GetListOfAllTodos(true);
+                        Manager.GetListOfAllTodos("List of Todos (sorted by date)", true);
                         break;
                     case 2:
-                        // Show Todos sorted by project and due date
-                        Manager.GetListOfAllTodos();
+                        // Show Todos split by project
+                        Utilities.PrintStatementInColor($"\nProjects", ConsoleColor.DarkGreen);
+                        Utilities.PrintStatementInColor("=================================================", ConsoleColor.DarkGreen);
+
+                        foreach (Project P in CurrentProjects)
+                        {
+                            ConsoleUI.DisplayProjectWithTodos(P, Manager);
+                        }
                         break;
                     case 3:
                         // Show only incomplete Todos
                         var incompleteTodos = Manager.GetIncompleteTodos();
-                        ConsoleUI.DisplayListOfTodos(incompleteTodos, "Incomplete Todos");
+                        ConsoleUI.DisplayListOfTodos(incompleteTodos, "List of Incomplete Todos");
                         break;
                     case 4:
                         // Show only completed Todos
                         var completedTodos = Manager.GetCompletedTodos();
-                        ConsoleUI.DisplayListOfTodos(completedTodos, "Completed Todos");
+                        ConsoleUI.DisplayListOfTodos(completedTodos, "List of Completed Todos");
                         break;
                     case 5:
                         // Return to Main Menu
@@ -72,7 +74,7 @@ while (isRunning)
                         Utilities.PrintStatementInColor("\nInvalid choice. Please try again.", ConsoleColor.Red);
                         break;
                 }
-
+                // Break to Main Menu if user chose to return
                 if (listChoice == 5)
                 {
                     break;
@@ -81,16 +83,23 @@ while (isRunning)
             break;
         case 2:
             /* Add New Todo */
+            Utilities.PrintStatementInColor("\n--- Add New Todo ---", ConsoleColor.DarkCyan);
+            Utilities.PrintStatementInColor("Type 'Q' to cancel and return to the main menu.", ConsoleColor.Yellow);
+            Console.WriteLine("-------------------------------------------------");
             while (true)
             {
+                // Add Todo
                 bool TodoIsAdded = Manager.AddTodo();
 
                 if (!TodoIsAdded)
                 {
                     break;
                 }
+
+                // Ask to add another Todo
                 string AddAnotherInput = InputHelper.GetValidatedStringInput("\nWould you like to add another Todo? (Y/N): ", out bool isQuit);
 
+                // Break if user chooses to quit or not add another
                 if (isQuit || AddAnotherInput.Equals("N", StringComparison.OrdinalIgnoreCase))
                 {
                     break;
@@ -99,27 +108,30 @@ while (isRunning)
             break;
         case 3:
             /* Edit Todo */
+            Manager.GetListOfAllTodos(showIds: true);
             ConsoleUI.DisplayEditMenu();
-            int editChoice = ConsoleUI.GetUserMenuChoice();
+            int editChoice = ConsoleUI.GetUserInputAsInt("Enter your choice: ");
             int TodoId;
+
+            // Handle user choice for edit menu
             switch (editChoice)
             {
                 case 1:
                     // Update Todo Details
-                    Manager.GetListOfAllTodos(showIds: true);
-                    TodoId = ConsoleUI.GetUserInputAsInt("\nEnter the ID of the Todo to update: ");
+                    Utilities.PrintStatementInColor("\n--- Update Todo Details ---", ConsoleColor.DarkCyan);
+                    TodoId = ConsoleUI.GetUserInputAsInt("Enter the ID of the Todo to update: ");
                     Manager.EditTodoDetails(TodoId);
                     break;
                 case 2:
-                    // Mark as Completed
-                    Manager.GetListOfAllTodos(showIds: true);
-                    TodoId = ConsoleUI.GetUserInputAsInt("\nEnter the ID of the Todo to mark as completed: ");
+                    // Mark Todo as Completed
+                    Utilities.PrintStatementInColor("\n--- Mark Todo as Completed ---", ConsoleColor.DarkCyan);
+                    TodoId = ConsoleUI.GetUserInputAsInt("Enter the ID of the Todo to mark as completed: ");
                     Manager.MarkTodoAsCompleted(TodoId);
                     break;
                 case 3:
                     // Remove Todo
-                    Manager.GetListOfAllTodos(showIds: true);
-                    TodoId = ConsoleUI.GetUserInputAsInt("\nEnter the ID of the Todo to remove: ");
+                    Utilities.PrintStatementInColor("\n--- Remove Todo ---", ConsoleColor.DarkCyan);
+                    TodoId = ConsoleUI.GetUserInputAsInt("Enter the ID of the Todo to remove: ");
                     Manager.RemoveTodo(TodoId);
                     break;
                 case 4:

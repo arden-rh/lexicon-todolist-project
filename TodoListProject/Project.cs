@@ -1,30 +1,27 @@
-﻿using Microsoft.VisualBasic;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿/* Project */
 
 namespace TodoListProject
 {
     public class Project
     {
-        public int Id { get; }
+        public int Id { get; private set; }
         public string Name { get; set; }
         public List<int> RelatedTodoIds { get; set; }
 
         // Constructor for creating a new Project
-        public Project(string name)
+        public Project(int id, string name)
         {
-            Id = new Random().Next(1, 100000); // Simple random ID generation
-            Name = name;
+            this.Id = id;
+            this.Name = name;
             RelatedTodoIds = new List<int>();
         }
 
         // Constructor for creating a Project with all properties
         internal Project(int id, string name, List<int> relatedTodoIds)
         {
-            Id = id;
-            Name = name;
-            RelatedTodoIds = relatedTodoIds;
+            this.Id = id;
+            this.Name = name;
+            this.RelatedTodoIds = relatedTodoIds;
         }
 
         // Mapping method to create a Project from data record

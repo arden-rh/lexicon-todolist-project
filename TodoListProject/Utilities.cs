@@ -1,5 +1,8 @@
 ﻿/* Utility methods */
 
+/* This internal class provides various utility functions for the application. */
+
+
 namespace TodoListProject
 {
     internal class Utilities
@@ -42,6 +45,23 @@ namespace TodoListProject
             // Reset color and write the part after the key
             Console.ResetColor();
             Console.WriteLine(text.Substring(index + key.Length));
+        }
+
+        // Generate a random ID
+        public static int GenerateNextFreeId(IEnumerable<int> existingIds)
+        {
+            // Use a SortedSet for efficient lookup
+            var usedIds = new SortedSet<int>(existingIds.Where(id => id > 0));
+            
+            int newId = 1;
+
+            // Find the smallest unused ID
+            while (usedIds.Contains(newId))
+            {
+                newId++;
+            }
+
+            return newId;
         }
     }
 }

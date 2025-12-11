@@ -11,22 +11,22 @@ namespace TodoListProject
         public string ParentProjectName { get; set; }
 
         // Constructor for creating a new Todo
-        public Todo(string title, DateOnly dueDate, string projectName)
+        public Todo(int id, string title, DateOnly dueDate, string projectName)
         {
-            Id = new Random().Next(1, 100); // Simple random ID generation
-            Title = title;
-            DueDate = dueDate;
-            IsCompleted = false;
+            this.Id = id;
+            this.Title = title;
+            this.DueDate = dueDate;
+            this.IsCompleted = false;
             ParentProjectName = projectName;
         }
 
         // Constructor for creating a Todo with all properties
         internal Todo(int id, string title, DateOnly dueDate, bool isCompleted, string projectName)
         {
-            Id = id;
-            Title = title;
-            DueDate = dueDate;
-            IsCompleted = isCompleted;
+            this.Id = id;
+            this.Title = title;
+            this.DueDate = dueDate;
+            this.IsCompleted = isCompleted;
             ParentProjectName = projectName;
         }
 
@@ -62,16 +62,16 @@ namespace TodoListProject
 
         // Edit the todo details
         public void EditTodo(
-            string newTitle = null, 
-            DateOnly? newDueDate = null,
-            bool? isCompleted = null,
-            string newProjectName = null)
+            string NewTitle = null, 
+            DateOnly? NewDueDate = null,
+            bool? NewIsCompleted = null,
+            string NewProjectName = null)
         {
             // Update only the provided fields
-            Title = newTitle ?? Title;
-            DueDate = newDueDate ?? DueDate;
-            IsCompleted = isCompleted ?? IsCompleted;
-            ParentProjectName = newProjectName ?? ParentProjectName;
+            Title = NewTitle ?? Title;
+            DueDate = NewDueDate ?? DueDate;
+            IsCompleted = NewIsCompleted ?? IsCompleted;
+            ParentProjectName = NewProjectName ?? ParentProjectName;
         }
     }
 }

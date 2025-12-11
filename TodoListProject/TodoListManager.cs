@@ -1,20 +1,37 @@
 ﻿/* Todo List */
 
+using System.Security.Cryptography.X509Certificates;
+
 namespace TodoListProject
 {
-    public class TodoList
+    public class TodoListManager
     {
         public List<Todo> Todos { get; private set; }
         public List<Project> Projects { get; private set; }
 
-        public TodoList(List<Todo> todos, List<Project> projects)
+        public TodoListManager(List<Todo> todos, List<Project> projects)
         {
             Todos = todos ?? new List<Todo>();
             Projects = projects ?? new List<Project>();
         }
 
+        public Todo GetTodoById(int todoId)
+        {
+            Todo? FoundTodo = Todos.FirstOrDefault(t => t.Id == todoId);
+
+            if (FoundTodo == null)
+            {
+                Utilities.PrintStatementInColor("Todo not found.", ConsoleColor.Red);
+                return null;
+            }
+
+            return FoundTodo;
+        }
+
+        // ----------------------- List Management ----------------------
+
         // Get all Todo items
-        public void GetListOfAllTodos(bool sortByDate = false, bool showIds = false)
+        public void GetListOfAllTodos(string title = "List of Todos", bool sortByDate = false, bool showIds = false)
         {
             List<Todo> sortedTodos;
 
@@ -36,11 +53,11 @@ namespace TodoListProject
 
             if (showIds)
             {
-                ConsoleUI.DisplayListOfTodos(sortedTodos, "List of Todos:", showIds: true);
+                ConsoleUI.DisplayListOfTodos(sortedTodos, title, showIds: true);
                 return;
             }
 
-            ConsoleUI.DisplayListOfTodos(sortedTodos, "List of Todos:");
+            ConsoleUI.DisplayListOfTodos(sortedTodos, title);
 
         }
 
@@ -56,15 +73,27 @@ namespace TodoListProject
             return Todos.Where(todo => todo.IsCompleted).ToList();
         }
 
-        /* Add a new Todo item to the list */
+        // ----------------------- Todo Management ----------------------
+
+        // Create a new Todo item
+        public Todo CreateNewTodo(string TodoName, DateOnly DueDate, string ProjectName)
+        {
+            IEnumerable<int> ExistingIds = Todos.Select(p => p.Id);
+
+            int NewId = Utilities.GenerateNextFreeId(ExistingIds);
+
+            Todo NewTodo = new Todo(NewId, TodoName, DueDate, ProjectName);
+
+            Todos.Add(NewTodo);
+
+            return NewTodo;
+        }
+
+        /* Add a new Todo item */
         public bool AddTodo()
         {
 
             bool isQuit;
-            Console.WriteLine("\nAdd a new Todo");
-            Utilities.PrintStatementInColor("Type 'Q' at any time to return to the main menu.", ConsoleColor.Yellow);
-            Console.WriteLine("---------------------------------------------------");
-
             string ProjectName;
 
             if (Projects != null)
@@ -74,31 +103,20 @@ namespace TodoListProject
                 {
                     Console.WriteLine($"- {project.Name}");
                 }
-                ProjectName = InputHelper.GetValidatedStringInput("Enter a new project name for the new Todo or one of the ones listed above", out isQuit);
-                if (isQuit)
-                {
-                    return false;
-                }
+                ProjectName = InputHelper.GetValidatedStringInput("\nEnter a new project name for the new Todo or one of the ones listed above", out isQuit);
+                if (isQuit) return false;
             }
             else
             {
                 ProjectName = InputHelper.GetValidatedStringInput("Enter the project name of the new Todo", out isQuit);
-                if (isQuit)
-                {
-                    return false;
-                }
+                if (isQuit) return false;
             }
 
             string Title = InputHelper.GetValidatedStringInput("Enter the title of the new Todo", out isQuit);
-            if (isQuit)
-            {
-                return false;
-            }
+            if (isQuit) return false;
+
             DateOnly DueDate = InputHelper.GetValidatedDateInput("Enter the due date of the new Todo", out isQuit);
-            if (isQuit)
-            {
-                return false;
-            }
+            if (isQuit) return false;
 
             Project ChosenProject = Projects.FirstOrDefault(p => p.Name.Equals(ProjectName, StringComparison.OrdinalIgnoreCase));
 
@@ -110,21 +128,17 @@ namespace TodoListProject
             }
             else
             {
-                TargetProject = new Project(ProjectName);
-                Projects.Add(TargetProject);
-                Utilities.PrintStatementInColor($"New project '{ProjectName}' created.", ConsoleColor.DarkGreen);
+                TargetProject = CreateNewProject(ProjectName);
             }
 
             // Create the new Todo
-            Todo NewTodo = new Todo(Title, DueDate, TargetProject.Name);
+            Todo NewTodo = CreateNewTodo(Title, DueDate, TargetProject.Name);
 
             // Link the new Todo to the Project
             TargetProject.RelatedTodoIds.Add(NewTodo.Id);
 
-            // Add the new Todo to the Todo list
-            Todos.Add(NewTodo);
+            Utilities.PrintStatementInColor($"New Todo '{NewTodo.Title}' created.", ConsoleColor.DarkGreen);
 
-            Utilities.PrintStatementInColor($"Todo '{Title}' added successfully.", ConsoleColor.Green);
             return true;
         }
 
@@ -150,7 +164,7 @@ namespace TodoListProject
             Utilities.PrintStatementInColor("Todo marked as completed successfully.", ConsoleColor.Green);
             return true;
         }
-        // ------------------------------------------------------ NOT FINISHED ------------------------------------------------------
+
         /* Edit a Todo item */
         public void EditTodoDetails(int todoId)
         {
@@ -167,13 +181,14 @@ namespace TodoListProject
             // Get new details for the Todo
             Console.WriteLine("Enter new details for the Todo (leave blank to keep current value)");
             Utilities.PrintStatementInColor("Type 'Q' at any time to return to the main menu.", ConsoleColor.Yellow);
+            Console.WriteLine("-------------------------------------------------");
             string NewTitle = InputHelper.GetValidatedStringInput("Enter the new title for the Todo", TodoToEdit.Title, out bool isQuit);
             if (isQuit) return;
 
             DateOnly NewDueDate = InputHelper.GetValidatedDateInput("Enter the new due date for the Todo", TodoToEdit.DueDate, out isQuit);
             if (isQuit) return;
             
-            bool NewIsCompleted = InputHelper.GetValidatedBoolInput("Is the Todo completed? (true/false)", TodoToEdit.IsCompleted, out isQuit);
+            bool NewIsCompleted = InputHelper.GetValidatedBoolInput("Is the Todo completed?", TodoToEdit.IsCompleted, out isQuit);
             if (isQuit) return;
 
             string NewProjectName = InputHelper.GetValidatedStringInput("Enter the new project name for the Todo", TodoToEdit.ParentProjectName, out isQuit);
@@ -194,16 +209,14 @@ namespace TodoListProject
 
                 if (NewProject == null)
                 {
-                    NewProject = new Project(NewProjectName);
-                    Projects.Add(NewProject);
-                    Utilities.PrintStatementInColor($"New project '{NewProjectName}' created.", ConsoleColor.DarkGreen);
+                    NewProject = CreateNewProject(NewProjectName);
                 }
 
                 NewProject.RelatedTodoIds.Add(TodoToEdit.Id);
             }
 
             // Update the Todo details
-            TodoToEdit.EditTodo(newTitle: NewTitle, newDueDate: NewDueDate, isCompleted: NewIsCompleted, newProjectName: NewProjectName);
+            TodoToEdit.EditTodo(NewTitle, NewDueDate, NewIsCompleted, NewProjectName);
 
             Utilities.PrintStatementInColor("Todo edited successfully.", ConsoleColor.Green);
             return;
@@ -224,8 +237,9 @@ namespace TodoListProject
             }
 
             // Confirm removal with the user
+            Utilities.PrintStatementInColor("Type 'Q' to cancel and return to the main menu.", ConsoleColor.Yellow);
             Console.WriteLine("Is this the todo you want to remove?");
-            Console.WriteLine($"Title: {TodoToRemove.Title}, Due Date: {TodoToRemove.DueDate}, Project: {TodoToRemove.ParentProjectName}, Completed: {TodoToRemove.IsCompleted}");
+            Utilities.PrintStatementInColor($"Title: {TodoToRemove.Title}, Due Date: {TodoToRemove.DueDate}, Project: {TodoToRemove.ParentProjectName}, Completed: {TodoToRemove.IsCompleted}", ConsoleColor.DarkYellow);
             string Confirmation = InputHelper.GetValidatedStringInput("(Y)es / (N)o: ", out bool isQuit);
 
             // User chose to not remove the todo or quit
@@ -261,6 +275,22 @@ namespace TodoListProject
                 Todos.Remove(TodoToRemove);
                 Utilities.PrintStatementInColor("Todo removed successfully.", ConsoleColor.Green);
             }
+        }
+
+        // ----------------------- Project Management ----------------------
+
+        public Project CreateNewProject(string ProjectName)
+        {
+            IEnumerable<int> ExistingIds = Projects.Select(p => p.Id);
+
+            int NewId = Utilities.GenerateNextFreeId(ExistingIds);
+
+            Project NewProject = new Project(NewId, ProjectName);
+
+            Projects.Add(NewProject);
+            Utilities.PrintStatementInColor($"New project '{ProjectName}' created.", ConsoleColor.DarkGreen);
+
+            return NewProject;
         }
     }
 }
