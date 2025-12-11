@@ -24,8 +24,8 @@ This TodoList application provides a simple yet powerful way to manage your dail
 
 ### Running the Application
 
-1. Clone the repository:
-2. Run the application:
+1. Clone the repository
+2. Run the application
 
 ## How to Use
 
@@ -42,28 +42,31 @@ When you start the application, you'll see a welcome message showing your task s
 
 Select option `1` from the main menu to access the Todo List Menu:
 
-- **Sort by date** - View all todos ordered by due date
-- **Split by project** - View todos grouped under their respective projects
-- **Show incomplete** - View only tasks that are not yet completed
-- **Show completed** - View only finished tasks
-- 
+1. **Sort by date** - View all todos ordered by due date
+2. **Split by project** - View todos grouped under their respective projects
+3. **Show incomplete** - View only tasks that are not yet completed
+4. **Show completed** - View only finished tasks
+5. **Return to main menu** - Go back to the main menu
+
 ### Adding a New Todo
 
-1. Select option `2` from the main menu
-2. Enter or select a project name (you can create a new project or use an existing one)
-3. Enter the todo title
-4. Enter the due date in the format shown
-5. Optionally add another todo or return to the main menu
+Select option `2` from the main menu to add a new todo:
+
+- Enter or select a project name (you can create a new project or use an existing one)
+- Enter the todo title
+- Enter the due date in the format shown
+- Optionally add another todo or return to the main menu
 
 ### Editing Todos
 
 Select option `3` from the main menu to access the Edit Todo Menu:
 
-1. The application will display all todos with their IDs
-2. Choose an edit option:
-- **Update Todo Details** - Change title, due date, project, or completion status
-- **Mark as Completed** - Mark a todo as done
-- **Remove Todo** - Delete a todo (you'll be asked to confirm)
+- The application will display all todos with their IDs
+- Choose an edit option:
+1. **Update Todo Details** - Change title, due date, project, or completion status
+2. **Mark as Completed** - Mark a todo as done
+3. **Remove Todo** - Delete a todo (you'll be asked to confirm)
+4. **Return to Main Menu** - Go back to the main menu
 
 ### Saving Your Work
 
