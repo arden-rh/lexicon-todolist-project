@@ -53,7 +53,7 @@ namespace TodoListProject
 
             do
             {
-                Console.Write($"{Prompt} (YYYY-MM-DD): ");
+                Console.Write($"{Prompt} [YYYY-MM-DD]: ");
                 string Input = Console.ReadLine().Trim();
 
                 // Check for quit command
@@ -62,16 +62,27 @@ namespace TodoListProject
                     IsQuit = true;
                     return default;
                 }
+
                 // Error handling for empty input
                 if (IsInputFieldEmpty(Input))
                 {
                     continue;
                 }
+
                 // Try to parse the date
                 if (!DateOnly.TryParse(Input, out InputDate))
                 {
                     Console.ForegroundColor = ConsoleColor.Red;
                     Console.WriteLine($"Invalid date. Please enter a valid date.");
+                    Console.ForegroundColor = ConsoleColor.White;
+                    continue;
+                }
+
+                // Check if the date is in the past
+                if (InputDate < DateOnly.FromDateTime(DateTime.Today))
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine($"Date cannot be in the past. Please enter a valid date.");
                     Console.ForegroundColor = ConsoleColor.White;
                     continue;
                 }
@@ -88,9 +99,9 @@ namespace TodoListProject
 
             do
             {
-                Console.WriteLine($"{Prompt}:");
+                Console.WriteLine($"{Prompt}");
                 Utilities.PrintStatementInColor($"Current Value: {previousDate.ToString("yyyy-MM-dd")}", ConsoleColor.DarkGray);
-                Console.Write("New Date (or press Enter to keep previous): ");
+                Console.Write("New Date [YYYY-MM-DD]: ");
                 string Input = Console.ReadLine().Trim();
 
                 // Check for quit command
@@ -99,6 +110,7 @@ namespace TodoListProject
                     IsQuit = true;
                     return default;
                 }
+
                 // Accept previous input if user presses Enter
                 if (string.IsNullOrWhiteSpace(Input))
                 {
@@ -110,6 +122,15 @@ namespace TodoListProject
                 {
                     Console.ForegroundColor = ConsoleColor.Red;
                     Console.WriteLine($"Invalid date. Please enter a valid date.");
+                    Console.ForegroundColor = ConsoleColor.White;
+                    continue;
+                }
+
+                // Check if the date is in the past
+                if (InputDate < DateOnly.FromDateTime(DateTime.Today))
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine($"Date cannot be in the past. Please enter a valid date.");
                     Console.ForegroundColor = ConsoleColor.White;
                     continue;
                 }
@@ -155,9 +176,9 @@ namespace TodoListProject
 
             do
             {
-                Console.WriteLine($"{Prompt}:");
+                Console.WriteLine($"{Prompt}");
                 Utilities.PrintStatementInColor($"Current Value: {previousInput}", ConsoleColor.DarkGray);
-                Console.Write("New Value (or press Enter to keep previous): ");
+                Console.Write("New Value: ");
                 Input = Console.ReadLine().Trim();
 
                 // Check for quit command
@@ -185,7 +206,9 @@ namespace TodoListProject
             bool InputBool;
             do
             {
-                Console.Write($"{Prompt} (true/false): ");
+                Console.WriteLine($"{Prompt} [yes/no]");
+                Utilities.PrintStatementInColor($"Current Value: {(previousInput ? "yes" : "no")}", ConsoleColor.DarkGray);
+                Console.Write("New Value: ");
                 string Input = Console.ReadLine().Trim();
 
                 // Check for quit command
@@ -196,10 +219,14 @@ namespace TodoListProject
                 }
 
                 // Error handling for empty input
-                if (IsInputFieldEmpty(Input))
-                {
+                if (string.IsNullOrWhiteSpace(Input))
+                { 
                     return previousInput;
                 }
+
+                if (Input.Equals("yes", StringComparison.OrdinalIgnoreCase)) Input = "true";
+                
+                else if (Input.Equals("no", StringComparison.OrdinalIgnoreCase)) Input = "false";
 
                 // Try to parse the boolean
                 if (!bool.TryParse(Input, out InputBool))

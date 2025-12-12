@@ -4,6 +4,7 @@
 /// Class <c>Utilities</c> provides various utility functions for the application.
 /// </summary>
 /// 
+
 namespace TodoListProject
 {
     internal class Utilities

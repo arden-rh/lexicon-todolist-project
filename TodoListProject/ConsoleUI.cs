@@ -4,7 +4,6 @@
 /// Class <c>ConsoleUI</c> provides methods for displaying information to the user and getting input.
 /// </summary>
 
-
 namespace TodoListProject
 {
     public static class ConsoleUI
@@ -63,7 +62,7 @@ namespace TodoListProject
                 return;
             }
 
-            Utilities.PrintStatementInColor($"\n{title}", ConsoleColor.Cyan);
+            Utilities.PrintStatementInColor($"{title}", ConsoleColor.Cyan);
 
             if (showIds)
             {
