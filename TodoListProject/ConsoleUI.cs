@@ -13,7 +13,7 @@ namespace TodoListProject
         public static void DisplayWelcomeMessage(int incompleteCount, int completedCount)
         {
             Console.WriteLine("Welcome to the Todo List Application!");
-            Console.WriteLine($"You have {incompleteCount} tasks to do and {completedCount} completed tasks.");
+            Console.WriteLine($"\nYou have {incompleteCount} {(incompleteCount == 1 ? "task" : "tasks")} to do and {completedCount} completed { (completedCount == 1 ? "task" : "tasks")}.");
             Console.WriteLine("*************************************************");
         }
 
@@ -113,18 +113,6 @@ namespace TodoListProject
                     Console.WriteLine($"- {todo.Title} (Due: {todo.DueDate.ToString("yyyy-MM-dd")}) / {(todo.IsCompleted ? "Done" : "Not done")}");
                 }
             }
-        }
-
-        // Get user input as an integer
-        public static int GetUserInputAsInt(string prompt)
-        {
-            Console.Write(prompt);
-            string input = Console.ReadLine();
-            if (int.TryParse(input, out int result))
-            {
-                return result;
-            }
-            return -1; // Indicate invalid input
         }
     }
 }

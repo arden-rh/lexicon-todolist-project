@@ -27,6 +27,18 @@ namespace TodoListProject
             return Input.Trim().Equals("Q", StringComparison.OrdinalIgnoreCase);
         }
 
+        // Get user input as an integer, mainly used for menu selections
+        public static int GetUserInputAsInt(string prompt)
+        {
+            Console.Write(prompt);
+            string input = Console.ReadLine();
+            if (int.TryParse(input, out int result))
+            {
+                return result;
+            }
+            return -1; // Indicate invalid input
+        }
+
         /// <summary>
         /// Validation methods
         /// These methods prompt the user for input, validate it, and check for quit commands.

@@ -30,7 +30,7 @@ while (isRunning)
 {
     // Menu
     ConsoleUI.DisplayMainMenu();
-    int userChoice = ConsoleUI.GetUserInputAsInt("Enter your choice: ");
+    int userChoice = InputHelper.GetUserInputAsInt("Enter your choice: ");
 
     // Handle user choice for main menu
     switch (userChoice)
@@ -43,7 +43,7 @@ while (isRunning)
             while (true)
             {
                 ConsoleUI.DisplayListMenu();
-                int listChoice = ConsoleUI.GetUserInputAsInt("Enter your choice: ");
+                int listChoice = InputHelper.GetUserInputAsInt("Enter your choice: ");
 
                 // Handle user choice for list menu
                 switch (listChoice)
@@ -116,7 +116,7 @@ while (isRunning)
             /* Edit Todo */
             Manager.GetListOfAllTodos(showIds: true);
             ConsoleUI.DisplayEditMenu();
-            int editChoice = ConsoleUI.GetUserInputAsInt("Enter your choice: ");
+            int editChoice = InputHelper.GetUserInputAsInt("Enter your choice: ");
             int TodoId;
 
             // Handle user choice for edit menu
@@ -125,19 +125,19 @@ while (isRunning)
                 case 1:
                     // Update Todo Details
                     Utilities.PrintStatementInColor("\n--- Update Todo Details ---", ConsoleColor.DarkCyan);
-                    TodoId = ConsoleUI.GetUserInputAsInt("Enter the ID of the Todo to update: ");
+                    TodoId = InputHelper.GetUserInputAsInt("Enter the ID of the Todo to update: ");
                     Manager.EditTodoDetails(TodoId);
                     break;
                 case 2:
                     // Mark Todo as Completed
                     Utilities.PrintStatementInColor("\n--- Mark Todo as Completed ---", ConsoleColor.DarkCyan);
-                    TodoId = ConsoleUI.GetUserInputAsInt("Enter the ID of the Todo to mark as completed: ");
+                    TodoId = InputHelper.GetUserInputAsInt("Enter the ID of the Todo to mark as completed: ");
                     Manager.MarkTodoAsCompleted(TodoId);
                     break;
                 case 3:
                     // Remove Todo
                     Utilities.PrintStatementInColor("\n--- Remove Todo ---", ConsoleColor.DarkCyan);
-                    TodoId = ConsoleUI.GetUserInputAsInt("Enter the ID of the Todo to remove: ");
+                    TodoId = InputHelper.GetUserInputAsInt("Enter the ID of the Todo to remove: ");
                     Manager.RemoveTodo(TodoId);
                     break;
                 case 4:
