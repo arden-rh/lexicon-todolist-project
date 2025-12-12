@@ -75,7 +75,7 @@ Select option `3` from the main menu to access the Edit Todo Menu:
 
 ### Canceling Operations
 
-- Type `Q` at any input prompt to cancel the current operation and return to the main menu
+- Type `Q` at any input prompt (not menus) to cancel the current operation and return to the main menu
 
 ## Data Storage
 
