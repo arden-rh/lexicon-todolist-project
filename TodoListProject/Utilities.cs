@@ -10,18 +10,11 @@ namespace TodoListProject
     internal class Utilities
     {
         // Print statement in color
-        public static void PrintStatementInColor(string Statement, ConsoleColor Color, bool NewLine = true)
+        public static void PrintStatementInColor(string Statement, ConsoleColor Color)
         {
             Console.ForegroundColor = Color;
-            if (NewLine)
-            {
-                Console.WriteLine(Statement);
-            }
-            else
-            {
-                Console.Write(Statement);
-            }
-            Console.ForegroundColor = ConsoleColor.White;
+            Console.WriteLine(Statement);
+            Console.ResetColor();
         }
 
         // Write text with a specific key highlighted in color
@@ -58,10 +51,7 @@ namespace TodoListProject
             int newId = 1;
 
             // Find the smallest unused ID
-            while (usedIds.Contains(newId))
-            {
-                newId++;
-            }
+            while (usedIds.Contains(newId)) newId++;
 
             return newId;
         }

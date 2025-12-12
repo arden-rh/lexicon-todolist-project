@@ -43,14 +43,8 @@ namespace TodoListProject
             List<Todo> sortedTodos;
 
             // Sort todos by project name and due date
-            if (sortByDate)
-            {
-                sortedTodos = Todos.OrderBy(todo => todo.DueDate).ToList();
-            }
-            else
-            {
-                sortedTodos = Todos.OrderBy(todo => todo.ParentProjectName).ThenBy(todo => todo.DueDate).ToList();
-            }
+            if (sortByDate) sortedTodos = Todos.OrderBy(todo => todo.DueDate).ToList();
+            else sortedTodos = Todos.OrderBy(todo => todo.ParentProjectName).ThenBy(todo => todo.DueDate).ToList();
 
             if (sortedTodos.Count == 0)
             {
@@ -129,14 +123,8 @@ namespace TodoListProject
 
             Project TargetProject;
 
-            if (ChosenProject != null)
-            {
-                TargetProject = ChosenProject;
-            }
-            else
-            {
-                TargetProject = CreateNewProject(ProjectName);
-            }
+            if (ChosenProject != null) TargetProject = ChosenProject;
+            else TargetProject = CreateNewProject(ProjectName);
 
             // Create the new Todo
             Todo NewTodo = CreateNewTodo(Title, DueDate, TargetProject.Name);
@@ -212,18 +200,12 @@ namespace TodoListProject
                 // Update the related todo IDs in the old project
                 Project? OldProject = Projects.FirstOrDefault(p => p.Name == TodoToEdit.ParentProjectName);
 
-                if (OldProject != null)
-                {
-                    OldProject.RelatedTodoIds.Remove(TodoToEdit.Id);
-                }
+                if (OldProject != null) OldProject.RelatedTodoIds.Remove(TodoToEdit.Id);
 
                 // Update the related todo IDs in the new project
                 Project? NewProject = Projects.FirstOrDefault(p => p.Name == NewProjectName);
 
-                if (NewProject == null)
-                {
-                    NewProject = CreateNewProject(NewProjectName);
-                }
+                if (NewProject == null) NewProject = CreateNewProject(NewProjectName);
 
                 NewProject.RelatedTodoIds.Add(TodoToEdit.Id);
             }
@@ -300,6 +282,7 @@ namespace TodoListProject
         }
 
         // ----------------------- Project Management ----------------------
+
         // Create a new Project
         public Project CreateNewProject(string ProjectName)
         {

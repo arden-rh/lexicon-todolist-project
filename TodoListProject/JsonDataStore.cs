@@ -20,10 +20,8 @@ namespace TodoListProject
         {
 
             // Check if user data file exists
-            if (File.Exists(UserDataFilePath))
-            {
-                 return LoadAndMap(UserDataFilePath);
-            }
+            if (File.Exists(UserDataFilePath)) return LoadAndMap(UserDataFilePath);
+
             // If not, check for test data file
             else if (File.Exists(TestDataFilePath))
             {
@@ -33,10 +31,7 @@ namespace TodoListProject
 
             }
             // If neither file exists, return empty lists
-            else
-            {
-                return (new List<Todo>(), new List<Project>());
-            }
+            else return (new List<Todo>(), new List<Project>());
         }
 
         // Helper method to load and map data from a specified file
@@ -46,10 +41,8 @@ namespace TodoListProject
             string JsonString = File.ReadAllText(filePath);
             ApplicationData? SavedData = JsonSerializer.Deserialize<ApplicationData>(JsonString);
 
-            if (SavedData == null)
-            {
-                return (new List<Todo>(), new List<Project>());
-            }
+            if (SavedData == null) return (new List<Todo>(), new List<Project>());
+            
             // Map records to domain objects / current state lists
             List<Todo> CurrentTodos = SavedData.Todos.ConvertAll(todoRecord => Todo.FromRecord(todoRecord));
             List<Project> CurrentProjects = SavedData.Projects.ConvertAll(projectRecord => Project.FromRecord(projectRecord));
@@ -65,15 +58,11 @@ namespace TodoListProject
             List<ProjectRecord> ProjectRecords = Projects.ConvertAll(project => project.ToRecord());
 
             var DataToSave = new ApplicationData(TodoRecords, ProjectRecords);
-            var Options = new JsonSerializerOptions
-            {
-                WriteIndented = true,
-            };
+            var Options = new JsonSerializerOptions{ WriteIndented = true };
 
             string JsonString = JsonSerializer.Serialize(DataToSave, Options);
             // Write the JSON string to the user data file
             File.WriteAllText(UserDataFilePath, JsonString);
         }
-
     }
 }

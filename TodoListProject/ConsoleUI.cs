@@ -53,7 +53,7 @@ namespace TodoListProject
             Utilities.PrintStatementInColor("-------------------------------------------------", ConsoleColor.DarkBlue);
         }
 
-        // Display a list of todos with optional IDs
+        // Display a list of todos, with optional IDs
         public static void DisplayListOfTodos(List<Todo> todos, string title, bool showIds = false)
         {
             if (todos.Count == 0)
@@ -63,7 +63,7 @@ namespace TodoListProject
             }
 
             Utilities.PrintStatementInColor($"{title}", ConsoleColor.Cyan);
-
+            // Print header
             if (showIds)
             {
                 Utilities.PrintStatementInColor("=================================================================================\n", ConsoleColor.Cyan);
@@ -77,22 +77,16 @@ namespace TodoListProject
                 Console.WriteLine($"{"Title",-30}{"Due Date",-15}{"Project",-15}{"Completed",-15}");
                 Console.WriteLine($"{"------",-30}{"---------",-15}{"--------",-15}{"----------",-15}");
             }
-
+            // Print each todo
             foreach (Todo todo in todos)
             {
                 string status = todo.IsCompleted ? "Yes" : "No";
-                if (showIds)
-                {
-                    Console.WriteLine($"{todo.Id,-10}{todo.Title,-30}{todo.DueDate.ToString("yyyy-MM-dd"),-15}{todo.ParentProjectName,-15}{status,-15}");
-                }
-                else
-                {
-                    Console.WriteLine($"{todo.Title,-30}{todo.DueDate.ToString("yyyy-MM-dd"),-15}{todo.ParentProjectName,-15}{status,-15}");
-                }
+                if (showIds) Console.WriteLine($"{todo.Id,-10}{todo.Title,-30}{todo.DueDate.ToString("yyyy-MM-dd"),-15}{todo.ParentProjectName,-15}{status,-15}");
+                else Console.WriteLine($"{todo.Title,-30}{todo.DueDate.ToString("yyyy-MM-dd"),-15}{todo.ParentProjectName,-15}{status,-15}");
             }
         }
 
-        // Display a project along with its related todos
+        // Display a project (name) along with its related todos
         public static void DisplayProjectWithTodos(Project project, TodoListManager manager)
         {
             Console.WriteLine($"\nProject: {project.Name}");

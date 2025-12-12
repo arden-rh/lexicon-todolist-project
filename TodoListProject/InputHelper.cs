@@ -32,10 +32,8 @@ namespace TodoListProject
         {
             Console.Write(prompt);
             string input = Console.ReadLine();
-            if (int.TryParse(input, out int result))
-            {
-                return result;
-            }
+            if (int.TryParse(input, out int result)) return result;
+            
             return -1; // Indicate invalid input
         }
 
@@ -64,10 +62,7 @@ namespace TodoListProject
                 }
 
                 // Error handling for empty input
-                if (IsInputFieldEmpty(Input))
-                {
-                    continue;
-                }
+                if (IsInputFieldEmpty(Input)) continue;
 
                 // Try to parse the date
                 if (!DateOnly.TryParse(Input, out InputDate))
@@ -112,10 +107,7 @@ namespace TodoListProject
                 }
 
                 // Accept previous input if user presses Enter
-                if (string.IsNullOrWhiteSpace(Input))
-                {
-                    return previousDate;
-                }
+                if (string.IsNullOrWhiteSpace(Input)) return previousDate;
 
                 // Try to parse the date
                 if (!DateOnly.TryParse(Input, out InputDate))
@@ -159,10 +151,7 @@ namespace TodoListProject
                 }
 
                 // Error handling for empty input
-                if (IsInputFieldEmpty(Input))
-                {
-                    continue;
-                }
+                if (IsInputFieldEmpty(Input)) continue;
 
                 return Input;
 
@@ -189,10 +178,7 @@ namespace TodoListProject
                 }
 
                 // Accept previous input if user presses Enter
-                if (string.IsNullOrWhiteSpace(Input))
-                {
-                    return previousInput;
-                }
+                if (string.IsNullOrWhiteSpace(Input)) return previousInput;
 
                 return Input;
 
@@ -204,6 +190,7 @@ namespace TodoListProject
         {
             IsQuit = false;
             bool InputBool;
+
             do
             {
                 Console.WriteLine($"{Prompt} [yes/no]");
@@ -219,10 +206,7 @@ namespace TodoListProject
                 }
 
                 // Error handling for empty input
-                if (string.IsNullOrWhiteSpace(Input))
-                { 
-                    return previousInput;
-                }
+                if (string.IsNullOrWhiteSpace(Input)) return previousInput;
 
                 if (Input.Equals("yes", StringComparison.OrdinalIgnoreCase)) Input = "true";
                 
@@ -238,6 +222,7 @@ namespace TodoListProject
                 }
 
                 return InputBool;
+
             } while (true);
         }
     }

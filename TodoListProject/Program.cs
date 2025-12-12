@@ -60,10 +60,8 @@ while (isRunning)
                         Utilities.PrintStatementInColor($"Projects", ConsoleColor.DarkGreen);
                         Utilities.PrintStatementInColor("=================================================", ConsoleColor.DarkGreen);
 
-                        foreach (Project P in CurrentProjects)
-                        {
-                            ConsoleUI.DisplayProjectWithTodos(P, Manager);
-                        }
+                        foreach (Project P in CurrentProjects) ConsoleUI.DisplayProjectWithTodos(P, Manager);
+
                         break;
                     case 3:
                         // Show only incomplete Todos
@@ -85,10 +83,7 @@ while (isRunning)
                         break;
                 }
                 // Break to Main Menu if user chose to return
-                if (listChoice == 5)
-                {
-                    break;
-                }
+                if (listChoice == 5) break;
             }
             break;
         case 2:
@@ -103,19 +98,13 @@ while (isRunning)
                 // Add Todo
                 bool TodoIsAdded = Manager.AddTodo();
 
-                if (!TodoIsAdded)
-                {
-                    break;
-                }
+                if (!TodoIsAdded) break;
 
                 // Ask to add another Todo
                 string AddAnotherInput = InputHelper.GetValidatedStringInput("\nWould you like to add another Todo? (Y/N): ", out bool isQuit);
 
                 // Break if user chooses to quit or not add another
-                if (isQuit || AddAnotherInput.Equals("N", StringComparison.OrdinalIgnoreCase))
-                {
-                    break;
-                }
+                if (isQuit || AddAnotherInput.Equals("N", StringComparison.OrdinalIgnoreCase)) break;   
             }
             break;
         case 3:
